@@ -12,8 +12,6 @@ struct coord
 
 int get_all_coord_len(const char* path);
 
-void get_diagram(int n, coord* initial_coord, coord* last_coord);
-
 int main(int argc, char** argv)
 {
 	std::fstream input;
@@ -92,10 +90,24 @@ int main(int argc, char** argv)
 				diagram[x][y] = c;
 				x++;
 			} while (x <= goal);
-		} else if (last_coord[i].x - initial_coord[i].x == last_coord[i].y - initial_coord[i].y ||
-				   last_coord[i].x - initial_coord[i].x == (last_coord[i].y - initial_coord[i].y) * -1) {
-			x = initial_coord[i].x > last_coord[i].x ? initial_coord[i].x + 1 : initial_coord[i].x - 1;
-			y = initial_coord[i].y > last_coord[i].y ? initial_coord[i].y + 1 : initial_coord[i].y - 1;
+		}
+	}
+	
+	for (int y = 0; y < len; ++y) {
+		for (int x = 0; x < len; ++x) {
+			if (diagram[x][y] > '1') {
+				asw_one++;
+			}
+			//std::cout << diagram[x][y]; // Print Diagram
+		}
+		//std::cout << '\n'; // Print Diagram.
+	}
+	
+	for (int i = 0; i < n; ++i) {
+		if (last_coord[i].x - initial_coord[i].x == last_coord[i].y - initial_coord[i].y ||
+			last_coord[i].x - initial_coord[i].x == (last_coord[i].y - initial_coord[i].y) * -1) {
+			short int x = initial_coord[i].x > last_coord[i].x ? initial_coord[i].x + 1 : initial_coord[i].x - 1;
+			short int y= initial_coord[i].y > last_coord[i].y ? initial_coord[i].y + 1 : initial_coord[i].y - 1;
 			short int goal_x = last_coord[i].x;
 			short int goal_y = last_coord[i].y;
 			char c = '1';
@@ -116,65 +128,18 @@ int main(int argc, char** argv)
 	for (int y = 0; y < len; ++y) {
 		for (int x = 0; x < len; ++x) {
 			if (diagram[x][y] > '1') {
-				asw_one++;
+				asw_two++;
 			}
 			//std::cout << diagram[x][y]; // Print Diagram
 		}
 		//std::cout << '\n'; // Print Diagram.
 	}
 	
-	
 	std::cout << "Result\n";
 	std::cout << "Part One: " << asw_one << std::endl;
 	std::cout << "Part Two: " << asw_two << std::endl;
 	
 	return 0;
-}
-
-void get_diagram(int n, coord* initial_coord, coord* last_coord)
-{
-	char diagram[n][n];
-	for (int x = 0; x < n; ++x) {
-		for (int y = 0; y < n; ++y) {
-			diagram[x][y] = '.';
-		}
-	}
-	for (int i = 0; i < n; ++i) {
-		
-		int x = initial_coord[i].
-			x <= last_coord[i].x ? initial_coord[i].x : last_coord[i].x;
-		int y = initial_coord[i].y <= last_coord[i].y ? initial_coord[i].y : last_coord[i].y;
-		if (initial_coord[i].x == last_coord[i].x) {
-			int goal = initial_coord[i].y >= last_coord[i].y ? initial_coord[i].y : last_coord[i].y;
-			do {
-				char c = '1';
-				if (diagram[x][y] != '.') {
-					c += 1;
-				}
-				diagram[x][y] = c;
-				y++;
-			} while (y <= goal);
-		}
-		if (initial_coord[i].y == last_coord[i].y) {
-			int goal = initial_coord[i].x >= last_coord[i].x ? initial_coord[i].x : last_coord[i].x;
-			do {
-				char c = '1';
-				if (diagram[x][y] != '.') {
-					c += 1;
-				}
-				diagram[x][y] = c;
-				x++;
-			} while (x <= goal);
-		}
-	}
-	for (int y = 0; y < n; ++y) {
-		for (int x = 0; x < n; ++x) {
-			if (diagram[x][y] == '2') {
-			}
-			std::cout << diagram[x][y];
-		}
-		std::cout << '\n';
-	}
 }
 
 int get_all_coord_len(const char* path)
