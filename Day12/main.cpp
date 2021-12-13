@@ -2,8 +2,9 @@
 #include <fstream>
 #include <string>
 #include <vector>
-#include <algorithm>
 #include <stdio.h>
+#include <algorithm>
+#include <cassert>
 #define LINES 23
 
 struct Cave
@@ -77,7 +78,7 @@ struct Cave
 	}
 };
 
-int get_paths(std::string all_caves[][2])
+int get_paths(std::string all_caves[][2], int part)
 {
 	int size = LINES;
 	std::vector<std::string> relevant_caves;
@@ -129,10 +130,14 @@ int get_paths(std::string all_caves[][2])
 			}
 		}
 	}
-	for (size_t i = 0; i < relevant_caves.size(); ++i) path[i].print_paths();
 	
-	
-	return path[0].get_paths2(true);
+	assert(part == 1 || part == 2);
+	if (part == 1) {
+		return path[0].get_paths();
+	} else if (part == 2) {
+		return path[0].get_paths2(true);
+	}
+	return 6969;
 }
 
 int main(int argc, char** argv)
@@ -142,7 +147,6 @@ int main(int argc, char** argv)
 	int asw_one = 0;
 	int asw_two = 0;
 	std::string paths[LINES][2];
-	
 	if (input.is_open())
 	{
 		int n = 0;
@@ -156,11 +160,13 @@ int main(int argc, char** argv)
 		}
 	}
 	input.close();
-	// for (int i = 0; i < LINES; ++i) printf("%s, %s\n", paths[i][0].c_str(), paths[i][1].c_str());
 
-	asw_one = get_paths(paths);
+	asw_one = get_paths(paths, 1);
+	asw_two = get_paths(paths, 2);
 	
 	std::cout << "Result\n";
 	std::cout << "Part One: " << asw_one << std::endl;
 	std::cout << "Part Two: " << asw_two << std::endl;
+	
+	return 0;
 }
